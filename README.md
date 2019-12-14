@@ -20,12 +20,12 @@ Install using pip:
 ports = [
     ...
     {
-        driver: "qtoggleserver.eq3bt.Temperature",
+        driver: "qtoggleserver.eq3bt.ports.Temperature",
         address: "00:1A:22:AA:BB:CC",
         name: "livingroom"
     }
     {
-        driver: "qtoggleserver.eq3bt.Boost",
+        driver: "qtoggleserver.eq3bt.ports.Boost",
         address: "00:1A:22:AA:BB:CC",
         name: "livingroom"
     }
