@@ -8,7 +8,6 @@ from .base import EQ3BTPort
 class Boost(EQ3BTPort):
     TYPE = ports.TYPE_BOOLEAN
     WRITABLE = True
-    DISPLAY_NAME = 'Thermostat Boost Mode'
 
     ID = 'boost'
 
