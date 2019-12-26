@@ -4,6 +4,8 @@ import datetime
 
 from qtoggleserver.lib import ble
 
+from .exceptions import EQ3Exception
+
 
 class EQ3BTPeripheral(ble.BLEPeripheral):
     WRITE_HANDLE = 0x0411
@@ -39,6 +41,7 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
             self._temp = temp
 
     def get_temp(self):
+        self.check_poll_error()
         return self._temp
 
     async def set_boost(self, boost):
@@ -55,27 +58,21 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
             self._boost = boost
 
     def get_boost(self):
+        self.check_poll_error()
         return self._boost
 
     async def poll(self):
         await self._read_config()
 
     async def _read_config(self):
-        try:
-            _, data = await self.write_notify(self.WRITE_HANDLE, self.NOTIFY_HANDLE,
-                                              bytes([self.STATUS_SEND_HEADER] + self._make_status_value()))
-
-        except Exception as e:
-            self.error('failed to read current configuration: %s', e, exc_info=True)
-            return
+        _, data = await self.write_notify(self.WRITE_HANDLE, self.NOTIFY_HANDLE,
+                                          bytes([self.STATUS_SEND_HEADER] + self._make_status_value()))
 
         if len(data) < 6:
-            self.error('notification data too short: %s', self.pretty_data(data))
-            return
+            raise EQ3Exception('notification data too short {}'.format(self.pretty_data(data)))
 
         if data[0] != self.STATUS_RECV_HEADER:
-            self.error('unexpected notification data header: %02X', data[0])
-            return
+            raise EQ3Exception('unexpected notification data header: {:02X}'.format(data[0]))
 
         self._boost = bool(data[self.STATUS_BITS_INDEX] & self.STATUS_BOOST_MASK)
         self._temp = data[self.STATUS_TEMP_INDEX] / 2.0
