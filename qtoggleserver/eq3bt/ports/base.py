@@ -30,15 +30,9 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
     async def set_temp(self, temp):
         self.debug('setting temperature to %.1f degrees', temp)
 
-        try:
-            await self.write(self.WRITE_HANDLE, bytes([self.WRITE_TEMP_HEADER, int(temp * 2)]))
-
-        except Exception as e:
-            self.error('failed to set temperature: %s', e, exc_info=True)
-
-        else:
-            self.debug('successfully set temperature')
-            self._temp = temp
+        await self.write(self.WRITE_HANDLE, bytes([self.WRITE_TEMP_HEADER, int(temp * 2)]))
+        self.debug('successfully set temperature')
+        self._temp = temp
 
     def get_temp(self):
         self.check_poll_error()
@@ -47,15 +41,9 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
     async def set_boost(self, boost):
         self.debug('%s boost', ['disabling', 'enabling'][boost])
 
-        try:
-            await self.write(self.WRITE_HANDLE, bytes([self.WRITE_BOOST_HEADER, int(boost)]))
-
-        except Exception as e:
-            self.error('failed to set boost: %s', e, exc_info=True)
-
-        else:
-            self.debug('successfully set boost')
-            self._boost = boost
+        await self.write(self.WRITE_HANDLE, bytes([self.WRITE_BOOST_HEADER, int(boost)]))
+        self.debug('successfully set boost')
+        self._boost = boost
 
     def get_boost(self):
         self.check_poll_error()
