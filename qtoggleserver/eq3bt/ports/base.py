@@ -57,10 +57,10 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
                                           bytes([self.STATUS_SEND_HEADER] + self._make_status_value()))
 
         if len(data) < 6:
-            raise EQ3Exception(f'notification data too short {self.pretty_data(data)}')
+            raise EQ3Exception(f'Notification data too short {self.pretty_data(data)}')
 
         if data[0] != self.STATUS_RECV_HEADER:
-            raise EQ3Exception(f'unexpected notification data header: {data[0]:02X}')
+            raise EQ3Exception(f'Unexpected notification data header: {data[0]:02X}')
 
         self._boost = bool(data[self.STATUS_BITS_INDEX] & self.STATUS_BOOST_MASK)
         self._temp = data[self.STATUS_TEMP_INDEX] / 2.0
