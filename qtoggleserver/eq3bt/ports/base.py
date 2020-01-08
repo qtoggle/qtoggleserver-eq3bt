@@ -21,7 +21,7 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
     WRITE_TEMP_HEADER = 0x41
     WRITE_BOOST_HEADER = 0x45
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
         self._temp = None
