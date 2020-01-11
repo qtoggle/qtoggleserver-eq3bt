@@ -1,4 +1,6 @@
 
+from typing import Optional
+
 from qtoggleserver.lib import ble
 
 from .base import EQ3BTPort
@@ -14,9 +16,9 @@ class Temperature(EQ3BTPort):
 
     ID = 'temperature'
 
-    async def read_value(self):
+    async def read_value(self) -> Optional[float]:
         return self.get_peripheral().get_temp()
 
     @ble.port_exceptions
-    async def write_value(self, value):
+    async def write_value(self, value: float) -> None:
         await self.get_peripheral().set_temp(value)

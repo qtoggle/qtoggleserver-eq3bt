@@ -2,6 +2,8 @@
 import abc
 import datetime
 
+from typing import List, Optional
+
 from qtoggleserver.lib import ble
 
 from .exceptions import EQ3Exception
@@ -27,32 +29,32 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
         self._temp = None
         self._boost = False
 
-    async def set_temp(self, temp):
+    async def set_temp(self, temp: float) -> None:
         self.debug('setting temperature to %.1f degrees', temp)
 
         await self.write(self.WRITE_HANDLE, bytes([self.WRITE_TEMP_HEADER, int(temp * 2)]))
         self.debug('successfully set temperature')
         self._temp = temp
 
-    def get_temp(self):
+    def get_temp(self) -> Optional[float]:
         self.check_poll_error()
         return self._temp
 
-    async def set_boost(self, boost):
+    async def set_boost(self, boost: bool) -> None:
         self.debug('%s boost', ['disabling', 'enabling'][boost])
 
         await self.write(self.WRITE_HANDLE, bytes([self.WRITE_BOOST_HEADER, int(boost)]))
         self.debug('successfully set boost')
         self._boost = boost
 
-    def get_boost(self):
+    def get_boost(self) -> Optional[bool]:
         self.check_poll_error()
         return self._boost
 
-    async def poll(self):
+    async def poll(self) -> None:
         await self._read_config()
 
-    async def _read_config(self):
+    async def _read_config(self) -> None:
         _, data = await self.write_notify(self.WRITE_HANDLE, self.NOTIFY_HANDLE,
                                           bytes([self.STATUS_SEND_HEADER] + self._make_status_value()))
 
@@ -69,7 +71,7 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
         self.debug('boost mode is %s', ['disabled', 'enabled'][self._boost])
 
     @staticmethod
-    def _make_status_value():
+    def _make_status_value() -> List[int, int, int, int, int, int]:
         now = datetime.datetime.now()
 
         return [

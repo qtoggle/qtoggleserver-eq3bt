@@ -1,4 +1,6 @@
 
+from typing import Optional
+
 from qtoggleserver.core import ports
 from qtoggleserver.lib import ble
 
@@ -11,9 +13,9 @@ class Boost(EQ3BTPort):
 
     ID = 'boost'
 
-    async def read_value(self):
+    async def read_value(self) -> Optional[bool]:
         return self.get_peripheral().get_boost()
 
     @ble.port_exceptions
-    async def write_value(self, value):
+    async def write_value(self, value: bool) -> None:
         await self.get_peripheral().set_boost(value)
