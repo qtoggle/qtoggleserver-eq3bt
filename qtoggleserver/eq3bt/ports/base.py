@@ -71,7 +71,7 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
         self.debug('boost mode is %s', ['disabled', 'enabled'][self._boost])
 
     @staticmethod
-    def _make_status_value() -> List[int, int, int, int, int, int]:
+    def _make_status_value() -> List[int]:
         now = datetime.datetime.now()
 
         return [
