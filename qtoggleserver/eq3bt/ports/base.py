@@ -55,8 +55,11 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
         await self._read_config()
 
     async def _read_config(self) -> None:
-        _, data = await self.write_notify(self.WRITE_HANDLE, self.NOTIFY_HANDLE,
-                                          bytes([self.STATUS_SEND_HEADER] + self._make_status_value()))
+        _, data = await self.write_notify(
+            self.WRITE_HANDLE,
+            self.NOTIFY_HANDLE,
+            bytes([self.STATUS_SEND_HEADER] + self._make_status_value())
+        )
 
         if len(data) < 6:
             raise EQ3Exception(f'Notification data too short {self.pretty_data(data)}')
