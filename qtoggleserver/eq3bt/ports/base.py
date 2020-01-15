@@ -62,7 +62,8 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
         _, data = await self.write_notify(
             self.WRITE_HANDLE,
             self.NOTIFY_HANDLE,
-            bytes([self.STATUS_SEND_HEADER] + self._make_status_value())
+            bytes([self.STATUS_SEND_HEADER] + self._make_status_value()),
+            retry_count=0
         )
 
         if len(data) < 6:
