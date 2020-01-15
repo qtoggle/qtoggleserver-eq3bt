@@ -55,6 +55,10 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
         await self._read_config()
 
     async def _read_config(self) -> None:
+        # Reset polled values so that, in case of error, old values aren't reused
+        self._temp = None
+        self._boost = None
+
         _, data = await self.write_notify(
             self.WRITE_HANDLE,
             self.NOTIFY_HANDLE,
