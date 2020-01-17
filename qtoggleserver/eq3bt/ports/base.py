@@ -37,7 +37,6 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
         self._temp = temp
 
     def get_temp(self) -> Optional[float]:
-        self.check_poll_error()
         return self._temp
 
     async def set_boost(self, boost: bool) -> None:
@@ -48,7 +47,6 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
         self._boost = boost
 
     def get_boost(self) -> Optional[bool]:
-        self.check_poll_error()
         return self._boost
 
     async def poll(self) -> None:
