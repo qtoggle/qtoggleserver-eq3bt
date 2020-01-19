@@ -92,3 +92,4 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
 
 class EQ3BTPort(ble.BLEPort, metaclass=abc.ABCMeta):
     PERIPHERAL_CLASS = EQ3BTPeripheral
+    WRITE_VALUE_QUEUE_SIZE = 1
