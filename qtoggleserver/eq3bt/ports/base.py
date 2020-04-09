@@ -64,6 +64,9 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
             retry_count=0
         )
 
+        if not data:
+            raise EQ3Exception('Null notification data')
+
         if len(data) < 6:
             raise EQ3Exception(f'Notification data too short {self.pretty_data(data)}')
 
