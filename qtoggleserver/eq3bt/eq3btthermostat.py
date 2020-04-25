@@ -1,15 +1,15 @@
 
-import abc
 import datetime
 
-from typing import List, Optional
+from typing import List, Optional, Type
 
+from qtoggleserver.core import ports as core_ports
 from qtoggleserver.lib import ble
 
 from .exceptions import EQ3Exception
 
 
-class EQ3BTPeripheral(ble.BLEPeripheral):
+class EQ3BTThermostat(ble.BLEPeripheral):
     WRITE_HANDLE = 0x0411
     NOTIFY_HANDLE = 0x0421
 
@@ -48,6 +48,14 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
 
     def get_boost(self) -> Optional[bool]:
         return self._boost
+
+    def make_port_args(self) -> List[Type[core_ports.BasePort]]:
+        from .ports import Temperature, Boost
+
+        return [
+            Temperature,
+            Boost
+        ]
 
     async def poll(self) -> None:
         await self._read_config()
@@ -91,8 +99,3 @@ class EQ3BTPeripheral(ble.BLEPeripheral):
             now.minute,
             now.second
         ]
-
-
-class EQ3BTPort(ble.BLEPort, metaclass=abc.ABCMeta):
-    PERIPHERAL_CLASS = EQ3BTPeripheral
-    WRITE_VALUE_QUEUE_SIZE = 1
