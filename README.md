@@ -17,17 +17,12 @@ Install using pip:
 ##### `qtoggleserver.conf:`
 ``` javascript
 ...
-ports = [
+peripherals = [
     ...
     {
-        driver = "qtoggleserver.eq3bt.ports.Temperature"
-        address = "00:1A:22:AA:BB:CC"
-        peripheral_name = "livingroom"
-    }
-    {
-        driver = "qtoggleserver.eq3bt.ports.Boost"
-        address = "00:1A:22:AA:BB:CC"
-        peripheral_name = "livingroom"
+        driver = "qtoggleserver.eq3bt.EQ3BTThermostat"
+        name = "livingroom"             # a name of your choice
+        address = "00:1A:22:AA:BB:CC"   # bluetooth address of the device
     }
     ...
 ]
