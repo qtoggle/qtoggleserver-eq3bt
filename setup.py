@@ -1,12 +1,10 @@
 
 from setuptools import setup, find_namespace_packages
 
-from qtoggleserver.eq3bt import VERSION
-
 
 setup(
     name='qtoggleserver-eq3bt',
-    version=VERSION,
+    version='unknown-version',
     description='Eqiva eQ-3 bluetooth thermostat support for qToggleServer',
     author='Calin Crisan',
     author_email='ccrisan@gmail.com',
