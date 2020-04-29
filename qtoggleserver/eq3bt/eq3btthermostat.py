@@ -26,8 +26,8 @@ class EQ3BTThermostat(ble.BLEPeripheral):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
-        self._temp = None
-        self._boost = False
+        self._temp: Optional[float] = None
+        self._boost: Optional[bool] = False
 
     async def set_temp(self, temp: float) -> None:
         self.debug('setting temperature to %.1f degrees', temp)
