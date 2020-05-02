@@ -23,8 +23,8 @@ class EQ3BTThermostat(ble.BLEPeripheral):
     WRITE_TEMP_HEADER = 0x41
     WRITE_BOOST_HEADER = 0x45
 
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
 
         self._temp: Optional[float] = None
         self._boost: Optional[bool] = False
