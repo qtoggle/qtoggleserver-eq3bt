@@ -49,7 +49,7 @@ class EQ3BTThermostat(ble.BLEPeripheral):
     def get_boost(self) -> Optional[bool]:
         return self._boost
 
-    def make_port_args(self) -> List[Type[core_ports.BasePort]]:
+    async def make_port_args(self) -> List[Type[core_ports.BasePort]]:
         from .ports import Temperature, Boost
 
         return [
