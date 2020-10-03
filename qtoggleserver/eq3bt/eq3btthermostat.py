@@ -15,18 +15,22 @@ class EQ3BTThermostat(ble.BLEPeripheral):
 
     STATUS_SEND_HEADER = 0x03
     STATUS_RECV_HEADER = 0x02
+
+    STATUS_MANUAL_MASK = 0x01
     STATUS_BOOST_MASK = 0x04
 
     STATUS_BITS_INDEX = 2
     STATUS_TEMP_INDEX = 5
 
     WRITE_TEMP_HEADER = 0x41
+    WRITE_MANUAL_HEADER = 0x40
     WRITE_BOOST_HEADER = 0x45
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
 
         self._temp: Optional[float] = None
+        self._manual: Optional[bool] = False
         self._boost: Optional[bool] = False
 
     async def set_temp(self, temp: float) -> None:
@@ -39,6 +43,16 @@ class EQ3BTThermostat(ble.BLEPeripheral):
     def get_temp(self) -> Optional[float]:
         return self._temp
 
+    async def set_manual(self, manual: bool) -> None:
+        self.debug('%s manual mode', ['disabling', 'enabling'][manual])
+
+        await self.write(self.WRITE_HANDLE, bytes([self.WRITE_MANUAL_HEADER, 0x40 if manual else 0x00]))
+        self.debug('successfully set manual mode')
+        self._manual = manual
+
+    def get_manual(self) -> Optional[bool]:
+        return self._manual
+
     async def set_boost(self, boost: bool) -> None:
         self.debug('%s boost', ['disabling', 'enabling'][boost])
 
@@ -50,10 +64,11 @@ class EQ3BTThermostat(ble.BLEPeripheral):
         return self._boost
 
     async def make_port_args(self) -> List[Type[core_ports.BasePort]]:
-        from .ports import Temperature, Boost
+        from .ports import Temperature, Manual, Boost
 
         return [
             Temperature,
+            Manual,
             Boost
         ]
 
@@ -81,10 +96,12 @@ class EQ3BTThermostat(ble.BLEPeripheral):
         if data[0] != self.STATUS_RECV_HEADER:
             raise EQ3Exception(f'Unexpected notification data header: {data[0]:02X}')
 
+        self._manual = bool(data[self.STATUS_BITS_INDEX] & self.STATUS_MANUAL_MASK)
         self._boost = bool(data[self.STATUS_BITS_INDEX] & self.STATUS_BOOST_MASK)
         self._temp = data[self.STATUS_TEMP_INDEX] / 2.0
 
         self.debug('temperature is %.1f degrees', self._temp)
+        self.debug('manual mode is %s', ['disabled', 'enabled'][self._manual])
         self.debug('boost mode is %s', ['disabled', 'enabled'][self._boost])
 
     @staticmethod
