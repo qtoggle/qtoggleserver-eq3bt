@@ -28,6 +28,8 @@ class EQ3BTThermostat(ble.BLEPeripheral):
     WRITE_BOOST_HEADER = 0x45
     WRITE_LOCKED_HEADER = 0x80
 
+    CMD_TIMEOUT = 20
+
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
 
