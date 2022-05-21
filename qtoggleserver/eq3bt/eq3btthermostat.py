@@ -10,8 +10,8 @@ from .exceptions import EQ3Exception
 
 
 class EQ3BTThermostat(ble.BLEPeripheral):
-    WRITE_HANDLE = 0x0411
-    NOTIFY_HANDLE = 0x0421
+    WRITE_HANDLE = 0x0410
+    NOTIFY_HANDLE = 0x0420
 
     STATUS_SEND_HEADER = 0x03
     STATUS_RECV_HEADER = 0x02
@@ -27,8 +27,6 @@ class EQ3BTThermostat(ble.BLEPeripheral):
     WRITE_MANUAL_HEADER = 0x40
     WRITE_BOOST_HEADER = 0x45
     WRITE_LOCKED_HEADER = 0x80
-
-    CMD_TIMEOUT = 20
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
@@ -96,11 +94,10 @@ class EQ3BTThermostat(ble.BLEPeripheral):
         self._temp = None
         self._boost = None
 
-        _, data = await self.write_notify(
+        data = await self.write_wait_notify(
             self.WRITE_HANDLE,
             self.NOTIFY_HANDLE,
             bytes([self.STATUS_SEND_HEADER] + self._make_status_value()),
-            retry_count=0
         )
 
         if not data:
