@@ -1,7 +1,7 @@
 
 import datetime
 
-from typing import List, Optional, Type
+from typing import Optional, Type
 
 from qtoggleserver.core import ports as core_ports
 from qtoggleserver.lib import ble
@@ -76,7 +76,7 @@ class EQ3BTThermostat(ble.BLEPeripheral):
     def get_locked(self) -> Optional[bool]:
         return self._locked
 
-    async def make_port_args(self) -> List[Type[core_ports.BasePort]]:
+    async def make_port_args(self) -> list[type[core_ports.BasePort]]:
         from .ports import Temperature, Manual, Boost, Locked
 
         return [
@@ -120,7 +120,7 @@ class EQ3BTThermostat(ble.BLEPeripheral):
         self.debug('thermostat is %s', ['unlocked', 'locked'][self._locked])
 
     @staticmethod
-    def _make_status_value() -> List[int]:
+    def _make_status_value() -> list[int]:
         now = datetime.datetime.now()
 
         return [
