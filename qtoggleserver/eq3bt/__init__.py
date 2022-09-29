@@ -1,4 +1,3 @@
-
 from .eq3btthermostat import EQ3BTThermostat
 
 

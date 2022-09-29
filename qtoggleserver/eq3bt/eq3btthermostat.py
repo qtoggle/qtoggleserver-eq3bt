@@ -1,7 +1,6 @@
-
 import datetime
 
-from typing import Optional, Type
+from typing import Optional
 
 from qtoggleserver.core import ports as core_ports
 from qtoggleserver.lib import ble
