@@ -63,7 +63,7 @@ class Temperature(EQ3BTPort):
     MIN = 5
     MAX = 30
     STEP = 0.5
-    UNIT = u'\xb0C'  # Degrees celsius
+    UNIT = u'\xb0C'  # degrees celsius
 
     ID = 'temperature'
 
