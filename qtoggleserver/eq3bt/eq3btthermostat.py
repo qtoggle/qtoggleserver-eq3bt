@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 from typing import Optional
 
@@ -26,6 +27,8 @@ class EQ3BTThermostat(ble.BLEPeripheral):
     WRITE_MANUAL_HEADER = 0x40
     WRITE_BOOST_HEADER = 0x45
     WRITE_LOCKED_HEADER = 0x80
+
+    logger = logging.getLogger(__name__)
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
