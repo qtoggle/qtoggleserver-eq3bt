@@ -25,6 +25,7 @@ class Manual(EQ3BTPort):
         return self.get_peripheral().get_manual()
 
     @ble.port_exceptions
+    @ports.skip_write_unavailable
     async def write_value(self, value: bool) -> None:
         await self.get_peripheral().set_manual(value)
 
@@ -39,6 +40,7 @@ class Boost(EQ3BTPort):
         return self.get_peripheral().get_boost()
 
     @ble.port_exceptions
+    @ports.skip_write_unavailable
     async def write_value(self, value: bool) -> None:
         await self.get_peripheral().set_boost(value)
 
@@ -53,6 +55,7 @@ class Locked(EQ3BTPort):
         return self.get_peripheral().get_locked()
 
     @ble.port_exceptions
+    @ports.skip_write_unavailable
     async def write_value(self, value: bool) -> None:
         await self.get_peripheral().set_locked(value)
 
@@ -71,5 +74,6 @@ class Temperature(EQ3BTPort):
         return self.get_peripheral().get_temp()
 
     @ble.port_exceptions
+    @ports.skip_write_unavailable
     async def write_value(self, value: float) -> None:
         await self.get_peripheral().set_temp(value)
