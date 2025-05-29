@@ -1,6 +1,6 @@
 import abc
 
-from typing import cast, Optional
+from typing import cast
 
 from qtoggleserver.core import ports
 from qtoggleserver.lib import ble
@@ -19,9 +19,9 @@ class Manual(EQ3BTPort):
     TYPE = ports.TYPE_BOOLEAN
     WRITABLE = True
 
-    ID = 'manual'
+    ID = "manual"
 
-    async def read_value(self) -> Optional[bool]:
+    async def read_value(self) -> bool | None:
         return self.get_peripheral().get_manual()
 
     @ble.port_exceptions
@@ -34,9 +34,9 @@ class Boost(EQ3BTPort):
     TYPE = ports.TYPE_BOOLEAN
     WRITABLE = True
 
-    ID = 'boost'
+    ID = "boost"
 
-    async def read_value(self) -> Optional[bool]:
+    async def read_value(self) -> bool | None:
         return self.get_peripheral().get_boost()
 
     @ble.port_exceptions
@@ -49,9 +49,9 @@ class Locked(EQ3BTPort):
     TYPE = ports.TYPE_BOOLEAN
     WRITABLE = True
 
-    ID = 'locked'
+    ID = "locked"
 
-    async def read_value(self) -> Optional[bool]:
+    async def read_value(self) -> bool | None:
         return self.get_peripheral().get_locked()
 
     @ble.port_exceptions
@@ -61,16 +61,16 @@ class Locked(EQ3BTPort):
 
 
 class Temperature(EQ3BTPort):
-    TYPE = 'number'
+    TYPE = "number"
     WRITABLE = True
     MIN = 5
     MAX = 30
     STEP = 0.5
-    UNIT = u'\xb0C'  # degrees celsius
+    UNIT = "\xb0C"  # degrees celsius
 
-    ID = 'temperature'
+    ID = "temperature"
 
-    async def read_value(self) -> Optional[float]:
+    async def read_value(self) -> float | None:
         return self.get_peripheral().get_temp()
 
     @ble.port_exceptions
