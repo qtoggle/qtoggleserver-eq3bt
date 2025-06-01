@@ -1,3 +1,20 @@
+[project]
+name = "qtoggleserver-eq3bt"
+version = "unknown-version"
+description = "Eqiva eQ-3 bluetooth thermostat support for qToggleServer"
+authors = [
+    {name = "Calin Crisan", email = "ccrisan@gmail.com"},
+]
+requires-python = "==3.10.*"
+readme = "README.md"
+license = {text = "Apache 2.0"}
+dependencies = []
+
+[dependency-groups]
+dev = [
+  "ruff",
+]
+
 [tool.ruff]
 line-length = 120
 target-version = "py310"
@@ -9,4 +26,3 @@ lint.isort.force-wrap-aliases = true
 [tool.mypy]
 explicit_package_bases = true
 ignore_missing_imports = true
-
