@@ -1,6 +1,6 @@
 [project]
 name = "qtoggleserver-eq3bt"
-version = "unknown-version"
+version = "0.0.0"
 description = "Eqiva eQ-3 bluetooth thermostat support for qToggleServer"
 authors = [
     {name = "Calin Crisan", email = "ccrisan@gmail.com"},
@@ -12,7 +12,8 @@ dependencies = []
 
 [dependency-groups]
 dev = [
-  "ruff",
+    "pre-commit",
+    "ruff",
 ]
 
 [tool.ruff]
