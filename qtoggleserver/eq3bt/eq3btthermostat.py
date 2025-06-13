@@ -1,5 +1,6 @@
-import datetime
 import logging
+
+from datetime import datetime
 
 from qtoggleserver.core import ports as core_ports
 from qtoggleserver.lib import ble
@@ -116,6 +117,6 @@ class EQ3BTThermostat(ble.BLEPeripheral):
 
     @staticmethod
     def _make_status_value() -> list[int]:
-        now = datetime.datetime.now()
+        now = datetime.now()
 
         return [now.year - 2000, now.month, now.day, now.hour, now.minute, now.second]
