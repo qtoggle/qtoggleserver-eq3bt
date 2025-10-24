@@ -1,4 +1,7 @@
 from .eq3btthermostat import EQ3BTThermostat
 
 
-VERSION = 'unknown-version'
+__all__ = ["EQ3BTThermostat"]
+
+
+VERSION = "0.0.0"
