@@ -9,7 +9,7 @@ from .eq3btthermostat import EQ3BTThermostat
 
 
 class EQ3BTPort(ble.BLEPort, metaclass=abc.ABCMeta):
-    WRITE_VALUE_QUEUE_SIZE = 1
+    WRITE_QUEUE_SIZE = 1
 
     def get_peripheral(self) -> EQ3BTThermostat:
         return cast(EQ3BTThermostat, super().get_peripheral())
