@@ -9,6 +9,8 @@ from .exceptions import EQ3Exception
 
 
 class EQ3BTThermostat(ble.BLEPeripheral):
+    POLL_AFTER_WRITE = True
+
     WRITE_HANDLE = 0x0410
     NOTIFY_HANDLE = 0x0420
 
@@ -38,41 +40,29 @@ class EQ3BTThermostat(ble.BLEPeripheral):
         self._locked: bool | None = False
 
     async def set_temp(self, temp: float) -> None:
-        self.debug("setting temperature to %.1f degrees", temp)
-
+        self.debug("requesting temperature set to %.1f degrees", temp)
         await self.write(self.WRITE_HANDLE, bytes([self.WRITE_TEMP_HEADER, int(temp * 2)]))
-        self.debug("successfully set temperature")
-        self._temp = temp
 
     def get_temp(self) -> float | None:
         return self._temp
 
     async def set_manual(self, manual: bool) -> None:
-        self.debug("%s manual mode", ["disabling", "enabling"][manual])
-
+        self.debug("requesting %s manual mode", ["disabling", "enabling"][manual])
         await self.write(self.WRITE_HANDLE, bytes([self.WRITE_MANUAL_HEADER, 0x40 if manual else 0x00]))
-        self.debug("successfully set manual mode")
-        self._manual = manual
 
     def get_manual(self) -> bool | None:
         return self._manual
 
     async def set_boost(self, boost: bool) -> None:
-        self.debug("%s boost", ["disabling", "enabling"][boost])
-
+        self.debug("requesting %s boost", ["disabling", "enabling"][boost])
         await self.write(self.WRITE_HANDLE, bytes([self.WRITE_BOOST_HEADER, int(boost)]))
-        self.debug("successfully set boost")
-        self._boost = boost
 
     def get_boost(self) -> bool | None:
         return self._boost
 
     async def set_locked(self, locked: bool) -> None:
-        self.debug(["unlocked", "locked"][locked])
-
+        self.debug("requesting %s", ["unlocked", "locked"][locked])
         await self.write(self.WRITE_HANDLE, bytes([self.WRITE_LOCKED_HEADER, int(locked)]))
-        self.debug("successfully set locked")
-        self._locked = locked
 
     def get_locked(self) -> bool | None:
         return self._locked
