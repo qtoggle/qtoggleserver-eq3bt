@@ -117,6 +117,8 @@ class EQ3BTThermostat(ble.BLEPeripheral):
 
     @staticmethod
     def _make_status_value() -> list[int]:
-        now = datetime.now()
+        # The thermostat's RTC expects wall-clock local time; attach the local tzinfo (rather than switching to
+        # UTC) so this satisfies DTZ005 without changing the values sent to the device.
+        now = datetime.now().astimezone()
 
         return [now.year - 2000, now.month, now.day, now.hour, now.minute, now.second]
