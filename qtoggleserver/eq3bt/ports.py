@@ -3,6 +3,7 @@ import abc
 from typing import cast
 
 from qtoggleserver.core import ports
+from qtoggleserver.core.typing import PortValue
 from qtoggleserver.lib import ble
 
 from .eq3btthermostat import EQ3BTThermostat
@@ -25,7 +26,7 @@ class Manual(EQ3BTPort):
         return self.get_peripheral().get_manual()
 
     @ble.port_exceptions
-    async def write_value(self, value: bool) -> None:
+    async def write_value(self, value: PortValue) -> None:
         await self.get_peripheral().set_manual(value)
 
 
@@ -39,7 +40,7 @@ class Boost(EQ3BTPort):
         return self.get_peripheral().get_boost()
 
     @ble.port_exceptions
-    async def write_value(self, value: bool) -> None:
+    async def write_value(self, value: PortValue) -> None:
         await self.get_peripheral().set_boost(value)
 
 
@@ -53,7 +54,7 @@ class Locked(EQ3BTPort):
         return self.get_peripheral().get_locked()
 
     @ble.port_exceptions
-    async def write_value(self, value: bool) -> None:
+    async def write_value(self, value: PortValue) -> None:
         await self.get_peripheral().set_locked(value)
 
 
@@ -71,5 +72,5 @@ class Temperature(EQ3BTPort):
         return self.get_peripheral().get_temp()
 
     @ble.port_exceptions
-    async def write_value(self, value: float) -> None:
+    async def write_value(self, value: PortValue) -> None:
         await self.get_peripheral().set_temp(value)
